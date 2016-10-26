@@ -8,11 +8,15 @@ class VigenereCipher:
 
     # d - direction 1 or -1
     def cipher(self, text, d=1):
-        out, i = "", 0
-        for s in text:
+        print('key: {0}, text: {1}'.format(self.key, text))
+        out = ""
+        for i, s in enumerate(text):
+            if s not in self.al:
+                out += s
+                continue
             shift = self.al.index(self.key[i % self.key_len])
-            out += self.al[(self.al.index(s) + shift * d) % self.al_len]
-            i += 1
+            out += self.al[(self.al.index(s) +
+                            self.al_len + shift * d) % self.al_len]
         return out
 
     def encode(self, text):
@@ -27,5 +31,5 @@ key = 'password'
 
 c = VigenereCipher(key, alphabet)
 
-print c.encode('codewars')  # returns 'rovwsoiv'
+print c.encode('codewars ')  # returns 'rovwsoiv'
 print c.decode('laxxhsj')   # returns 'waffles'
